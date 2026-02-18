@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sonic Vision
+
+A portfolio dashboard for the [Sonic](https://soniclabs.com) blockchain — track your token balances, staking rewards, and DeFi positions in one place.
+
+## Features
+
+- **Portfolio Overview** — View total asset value and individual token balances for your connected wallet
+- **Multi-token Support** — Tracks native S, wS, stS (Beets Staked Sonic), USDC, USDT, scUSD, WETH, and EURC
+- **Wallet Connect** — Connects via WalletConnect with support for all major EVM-compatible wallets
+- **Staking Dashboard** — Monitor validator delegations and staking positions *(coming soon)*
+- **Yield Rankings** — Compare APY across Sonic DeFi protocols *(coming soon)*
+- **Airdrop Tracker** — Estimate Sonic Points and Gems rewards *(coming soon)*
+
+## Tech Stack
+
+| Category | Library |
+|----------|---------|
+| Framework | [Next.js](https://nextjs.org) 15 (App Router) |
+| Language | TypeScript 5 |
+| Styling | Tailwind CSS 3 |
+| Charts | Recharts 2 |
+| Wallet | wagmi 2, viem 2, WalletConnect |
+| Data Fetching | TanStack Query 5 |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A WalletConnect Project ID (free at [cloud.walletconnect.com](https://cloud.walletconnect.com))
+
+### Installation
+
+```bash
+git clone https://github.com/TTMK7777/sonic-vision.git
+cd sonic-vision
+npm install
+```
+
+### Configuration
+
+Copy the example environment file and fill in your values:
+
+```bash
+cp .env.example .env.local
+```
+
+Then edit `.env.local`:
+
+```env
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id_here
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | Yes | WalletConnect Project ID from [cloud.walletconnect.com](https://cloud.walletconnect.com) |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Dashboard page
+├── components/
+│   ├── dashboard/          # Dashboard UI components
+│   │   ├── TotalAssets.tsx # Total portfolio value card
+│   │   └── TokenList.tsx   # Token balance list
+│   ├── layout/             # Header, navigation
+│   ├── providers/          # React context providers (wagmi, query)
+│   └── wallet/             # Wallet connect button and modal
+├── hooks/
+│   └── usePortfolio.ts     # Portfolio data fetching hook
+└── lib/
+    ├── sonic/
+    │   ├── chain.ts        # Sonic Mainnet / Testnet chain definitions
+    │   ├── tokens.ts       # Sonic token registry (addresses, decimals)
+    │   └── contracts.ts    # ERC20 ABI and contract helpers
+    └── wagmi/              # wagmi client configuration
+```
 
-## Deploy on Vercel
+## Supported Tokens
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Token | Name | Type |
+|-------|------|------|
+| S | Sonic | Native |
+| wS | Wrapped Sonic | ERC20 |
+| stS | Beets Staked Sonic | ERC20 |
+| USDC | USD Coin | ERC20 |
+| USDT | Tether USD (Bridged) | ERC20 |
+| scUSD | Sonic USD (Rings) | ERC20 |
+| WETH | Wrapped Ether | ERC20 |
+| EURC | Euro Coin (Bridged) | ERC20 |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT
